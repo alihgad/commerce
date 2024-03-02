@@ -30,6 +30,7 @@ function App() {
     {path: "/",element: <LayOut/> , children: [
       {index: true,element: <ProtectedRoutes><Home/></ProtectedRoutes>},
       {path: '/home',element: <ProtectedRoutes><Home/></ProtectedRoutes>},
+      {path: '/E-commerce',element: <ProtectedRoutes><Home/></ProtectedRoutes>},
       {path: "/cart",element:<ProtectedRoutes> <Cart/> </ProtectedRoutes>},
       {path: "/products",element:<ProtectedRoutes><Products/></ProtectedRoutes> },
       {path: "/Categories",element:<ProtectedRoutes><Categorys/></ProtectedRoutes> },
