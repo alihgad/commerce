@@ -4,26 +4,23 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { useQuery } from "react-query";
 import Loader from "../Loader/Loader";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 export default function Brands() {
+
+const navigate = useNavigate()
+
   async function getBrands() {
     let data = await axios.get("https://ecommerce.routemisr.com/api/v1/brands");
+    console.log(data?.data?.data);
     return data?.data?.data;
+    
   }
 
   let { data, isLoading } = useQuery("brands", getBrands);
 
-  const showSwal = (brand) => {
-    withReactContent(Swal).fire({
-      title: <div>
-        <img src={brand.image} alt={brand.name} />
-        <h1>{brand.name}</h1>
-      </div>,
 
-    })
-  }
 
   return (
     <>
@@ -44,7 +41,7 @@ export default function Brands() {
                       key={brand.name}
                       className="card rounded-4 overflow-hidden cursor-pointer hover"
                       onClick={()=>{
-                        showSwal(brand)
+                        navigate('/brand/'+brand._id)
                       }}
                     >
                       <div className="card-imge">

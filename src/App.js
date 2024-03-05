@@ -20,6 +20,8 @@ import VerfiyCode from './components/VerfiyCode/VerfiyCode';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import WhichList from './components/WhichList/WhichList';
 import Offlinecheckout from './components/Offlinecheckout/Offlinecheckout';
+import BrandDetails from './components/BrandDetails/BrandDetails';
+import CategoryDetails from './components/CategoryDetails/CategoryDetails';
 
 
 function App() {
@@ -34,7 +36,9 @@ function App() {
       {path: "/cart",element:<ProtectedRoutes> <Cart/> </ProtectedRoutes>},
       {path: "/products",element:<ProtectedRoutes><Products/></ProtectedRoutes> },
       {path: "/Categories",element:<ProtectedRoutes><Categorys/></ProtectedRoutes> },
+      {path: "/category/:id",element:<ProtectedRoutes><CategoryDetails/></ProtectedRoutes> },
       {path: "/brands",element:<ProtectedRoutes><Brands/></ProtectedRoutes> },
+      {path: "/brand/:id",element:<ProtectedRoutes><BrandDetails/></ProtectedRoutes> },
       {path: "/allorders",element:<ProtectedRoutes><Allorders/></ProtectedRoutes> },
       {path: "/checkout",element:<ProtectedRoutes><Checkout/></ProtectedRoutes> },
       {path: "/offlinecheckout",element:<ProtectedRoutes><Offlinecheckout/></ProtectedRoutes> },

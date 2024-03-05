@@ -4,9 +4,11 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import Loader from "../Loader/Loader";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Categorys() {
 
+  const nav = useNavigate()
   const [catId,setCatId]=useState(null)
   const [catName,setCatName]=useState(null)
   const [subs,setsubs]=useState(null)
@@ -75,7 +77,7 @@ console.log(subs);
               return (
                 
               <div key={cat._id} className="col-md-4 col-lg-3">
-            <div onClick={()=>{setCatId(cat._id) ;}} className={`card my-3 ${styles.cat} hover cursor-pointer`} >
+            <div onClick={()=>{  nav("/category/"+cat._id)  ; setCatId(cat._id) ;}} className={`card my-3 ${styles.cat} hover cursor-pointer`} >
               <img src={cat.image} className={`card-img-top w-100 `} alt={cat.name} />
               <div className="card-body">
                 <div className="card-text">

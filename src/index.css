@@ -130,3 +130,8 @@ code {
   box-shadow: 1px 1px 10px 1px var(--main-color) !important;
 
 }
+
+
+.which{
+  bottom: 22%
+}

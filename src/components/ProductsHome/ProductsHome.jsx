@@ -238,7 +238,7 @@ export default function ProductsHome() {
                       </div>
                     </Link>
                     <div
-                      className={`whish-list ms-auto position-absolute end-0 ${styles.which} me-4 cursor-pointer`}
+                      className={`whish-list ms-auto position-absolute end-0 which me-4 cursor-pointer`}
                     >
                       <div
                         className="bg-white border-0"

@@ -61,6 +61,10 @@ export default function NavBar() {
   <NavLink className="nav-link" to={"whichlist"}>whichlist</NavLink>
 </li>
 
+<li className="nav-item">
+  <NavLink className="nav-link" to={"allorders"}>Orders</NavLink>
+</li>
+
 <li className="nav-item me-auto">
   <Link className="nav-link position-relative" to={"cart"}> <i className='fas fa-cart-shopping fa-xl'>  </i>  <span className=' bg-info rounded-circle  p-2   '>{quantity}</span> </Link>
 </li>
