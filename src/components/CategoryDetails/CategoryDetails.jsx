@@ -102,7 +102,7 @@ export default function CategoryDetails() {
 
   async function getProducts() {
     axios
-      .get("https://route-ecommerce.onrender.com/api/v1/products")
+      .get("https://ecommerce.routemisr.com/api/v1/products")
       .then((response) => {
         setProducts(response?.data?.data);
         setIsLoading(false);
@@ -151,7 +151,7 @@ export default function CategoryDetails() {
                   <>
                     {subs.map((sub) => (
                       <div className="col-md-6" key={sub._id}>
-                        <Link to={'/subCategory/'+sub._id}>
+                        <Link to={'/subcategory/'+sub._id}>
                         <div className={`card p-3 m-2 w-100 hover`}>
                           <h3 className="text-center">{sub.name}</h3>
                         </div>

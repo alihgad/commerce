@@ -3,18 +3,12 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { useQuery } from "react-query";
 import Loader from "../Loader/Loader";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Categorys() {
 
   const nav = useNavigate()
-  const [catId,setCatId]=useState(null)
-  const [catName,setCatName]=useState(null)
-  const [subs,setsubs]=useState(null)
-  const [subsLoading,setSubsLoading]=useState(true)
 
-  // console.log(catId);
 
   async function getData() {
     let data = await axios.get(
@@ -24,38 +18,6 @@ export default function Categorys() {
   }
 
 
-  async function getCategoryName() {
-    if(catId){let res = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories/${catId}`)
-    setCatName(res?.data?.data?.name);
-  }
-
-  }
-
-
-
-
-  async function getCatDetails() {
-      if(catId){
-        setSubsLoading(true)
-      let data = await axios.get(
-        `https://ecommerce.routemisr.com/api/v1/categories/${catId}/subcategories`
-      );
-      setsubs(data?.data?.data);
-      setSubsLoading(false)
-
-      return data?.data?.data;
-    }
-  }
-
-
-  useEffect(()=>{
-  getCatDetails()
-  getCategoryName()
-
-  },[catId])
-
-
-console.log(subs);
 
 
 
@@ -77,7 +39,7 @@ console.log(subs);
               return (
                 
               <div key={cat._id} className="col-md-4 col-lg-3">
-            <div onClick={()=>{  nav("/category/"+cat._id)  ; setCatId(cat._id) ;}} className={`card my-3 ${styles.cat} hover cursor-pointer`} >
+            <div onClick={()=>{  nav("/category/"+cat._id)  ;}} className={`card my-3 ${styles.cat} hover cursor-pointer`} >
               <img src={cat.image} className={`card-img-top w-100 `} alt={cat.name} />
               <div className="card-body">
                 <div className="card-text">
@@ -89,34 +51,7 @@ console.log(subs);
           
             )}) }
 
-           {catId ? 
-           <>
-        {subsLoading ? <Loader/>: <>
-            <h3 className="text-center text-main mt-5">
-              {catName} subcategories
-            </h3>
-            <div className="row my-3 ">
-
-              {subs?.length? <>
-                {subs.map((sub)=>
-                  <div className="col-md-6 ">
-                    <div className={`card p-3 m-2 w-100 hover`}>
-                    <h3 className="text-center">
-                    {sub.name}
-                    </h3>
-                    </div>
-                  </div>
-                )}
-              </> : <>
-                  <h4 className="text-capitalize text-center text-danger"> no sub Categorys</h4>
-              </>}
-           </div>
-              </> }
-
            
-           </>
-           
-           :null} 
 
           </>
             

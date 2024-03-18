@@ -10,12 +10,18 @@ export default function TokenContextProvider(props) {
     const [id , setId ] = useState(null)
     const [name , setName ] = useState(null)
 
-useEffect((function(){
-  if(localStorage.getItem('token')){
-    setToken(localStorage.getItem('token'))
-   getId()
+    function build(){
+      if(localStorage.getItem('token')){
+        setToken(localStorage.getItem('token'))
+       getId()
+    
+      }
+    }
 
-  }
+    
+useEffect((function(){
+  build()
+  
 }),[])
 
 
@@ -25,11 +31,14 @@ useEffect((function(){
     console.log(decoded);
     if(!id){
       setId(decoded.id)
+      console.log(id);
+      setName(decoded.name)
+      console.log(decoded.name);
+      console.log(name);
       return decoded.id
     }
   
     if(!name){
-      setName(decoded.name)
     }
   }
 }
@@ -41,9 +50,8 @@ useEffect((function(){
 
 
 
-
   return (
-    <TokenContext.Provider value={{token,setToken,id,name,getId}} >
+    <TokenContext.Provider value={{token,setToken,id,name,getId,build}} >
 
       {props.children}
     </TokenContext.Provider>

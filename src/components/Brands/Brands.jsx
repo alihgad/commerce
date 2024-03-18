@@ -36,7 +36,7 @@ const navigate = useNavigate()
             <>
               {data?.map((brand) => (
                 <>
-                  <div className="col-lg-3">
+                  <div className="col-lg-4 col-md-6 col-xl-3">
                     <div
                       key={brand.name}
                       className="card rounded-4 overflow-hidden cursor-pointer hover"
@@ -45,7 +45,8 @@ const navigate = useNavigate()
                       }}
                     >
                       <div className="card-imge">
-                        <img src={brand.image} alt="" />
+                        <img src={brand.image} alt={brand.name} className="w-100" />
+
                       </div>
                       <div className="card-body text-center">
                         <div className="card-text">

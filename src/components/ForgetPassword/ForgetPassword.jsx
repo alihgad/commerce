@@ -4,9 +4,11 @@ import axios from "axios";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import {  useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function ForgetPassword() {
   const navigate = useNavigate(); 
+  let [loading,setLoading] = useState(false)
 
 
   let formik = useFormik({
@@ -19,6 +21,7 @@ export default function ForgetPassword() {
      .required("Email is required")
     }),
     onSubmit: (values) => {
+      setLoading(true)
       axios
      .post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords", values)
      .then((res) => {
@@ -59,12 +62,14 @@ export default function ForgetPassword() {
                       placeholder="Enter email"
                       {...formik.getFieldProps('email')}
                     />
+                    {formik.touched.email && formik.errors.email ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.email}</div>) : null}
+
                     <small id="emailHelp" className="form-text text-muted ">
                       We'll never share your email with anyone else.
                     </small>
                   </div>
                   <button  className="btn btn-primary my-2" >
-                    Submit
+                    { loading ? <i className="fas fa-spinner fa-pulse"></i> : 'Submit'}
                   </button>
                 </form>
               </div>

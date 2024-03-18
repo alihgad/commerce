@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./WhichList.module.css";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import { useActionData } from "react-router-dom";
+import { Link, useActionData } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { CartContexst } from "../../Context/CartContext";
 
@@ -65,6 +65,7 @@ export default function WhichList() {
   useEffect(()=>{
     displayWhichList()
   },[])
+
   
   return (
     <>
@@ -78,7 +79,7 @@ export default function WhichList() {
 
           {isLoading ? <Loader/> : (
             <>
-            {data.map((prod)=>
+            {data.length>0 ?  data.map((prod)=>
               <div className="box ">
               <div
                 key={prod.id}
@@ -114,7 +115,19 @@ export default function WhichList() {
                 </div>
               </div>
             </div>
-            )}
+            ):<>
+            <div className="container">
+                <div className="row justify-content-center">
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <h5 className="card-title text-center text-capitalize">
+                        no products in which list 
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>}
             </>
           )}
 

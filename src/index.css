@@ -113,7 +113,10 @@ code {
 .navbar-nav .nav-link.active{
   background-color: #0aad0a !important;
   color: white;
-  
+}
+
+.btn.active{
+  background-color: #0aad0a !important;
 }
 
 
@@ -135,3 +138,11 @@ code {
 .which{
   bottom: 22%
 }
+
+
+/* .dropdown-menu[data-bs-popper] {
+  right: 0% !important;
+  left: unset !important;
+} */
+
+

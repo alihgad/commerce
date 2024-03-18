@@ -15,10 +15,12 @@ export default function Register() {
   setToken(null)
   localStorage.removeItem('token')
 
-
+  const [password,SetPassword] = useState('password')   
+  const [repassword,SetRePassword] = useState('password')   
   const [errorMesaage,SeterrorMessage] = useState('') 
   const [isLoading,SetIsLoading] = useState(false)   
   const navigate = useNavigate(); 
+
   const formik = useFormik({
       initialValues: {
         name: '',
@@ -53,6 +55,29 @@ export default function Register() {
         
       }
   }) 
+
+  function changeType(){
+    if(password === 'password'){
+      SetPassword('text')
+    }
+    else{
+      SetPassword('password')
+    }
+
+    
+  }
+
+  function rechangetype(){
+    if(repassword === 'password'){
+      SetRePassword('text')
+    }
+    else{
+      SetRePassword('password')
+    }
+  }
+
+
+
   return (
     <>
       <div className="container  mt-5">
@@ -73,17 +98,21 @@ export default function Register() {
           {formik.touched.email && formik.errors.email ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.email}</div>) : null}
         </div>
 
-        <div className="form-group mb-2 ">
+        <div className="form-group mb-2 position-relative ">
           <label htmlFor="password" >password : </label>
-          <input id='password' name='password' type="password"  className='form-control ' {...formik.getFieldProps('password')} />
-          {formik.touched.password && formik.errors.password ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.password}</div>) : null}
-        </div>
+          <input id='password' name='password' type={password}  className='form-control ' {...formik.getFieldProps('password')} />
+          <div className='position-absolute top-50 end-0 me-3 cursor-pointer' onClick={()=>{changeType()}}><i className='fas fa-eye '></i></div>
 
-        <div className="form-group mb-2 ">
-          <label htmlFor="rePassword" >rePassword : </label>
-          <input id='rePassword' name='rePassword' type="password"  className='form-control ' {...formik.getFieldProps('rePassword')} />
-          {formik.touched.rePassword && formik.errors.rePassword ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.rePassword}</div>) : null}
         </div>
+          {formik.touched.password && formik.errors.password ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.password}</div>) : null}
+
+        <div className="form-group mb-2 position-relative ">
+          <label htmlFor="rePassword" >rePassword : </label>
+          <input id='rePassword' name='rePassword' type={repassword}  className='form-control ' {...formik.getFieldProps('rePassword')} />
+          <div className='position-absolute top-50 end-0 me-3 cursor-pointer' onClick={()=>{rechangetype()}}><i className='fas fa-eye '></i></div>
+
+        </div>
+          {formik.touched.rePassword && formik.errors.rePassword ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.rePassword}</div>) : null}
 
         <div className="form-group mb-2 ">
           <label htmlFor="phone" >phone : </label>

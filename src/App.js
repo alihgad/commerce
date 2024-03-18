@@ -22,6 +22,11 @@ import WhichList from './components/WhichList/WhichList';
 import Offlinecheckout from './components/Offlinecheckout/Offlinecheckout';
 import BrandDetails from './components/BrandDetails/BrandDetails';
 import CategoryDetails from './components/CategoryDetails/CategoryDetails';
+import Settings from './components/Settings/Settings';
+import Account from './components/Account/Account';
+import Privacy from './components/Privacy/Privacy';
+import Adresses from './components/Adresses/Adresses';
+import Subproducts from './components/Subproducts/Subproducts';
 
 
 function App() {
@@ -30,13 +35,19 @@ function App() {
   const routers = createBrowserRouter([
       // log in routing
     {path: "/",element: <LayOut/> , children: [
-      {index: true,element: <ProtectedRoutes><Home/></ProtectedRoutes>},
+      {index: true,element: <ProtectedRoutes children={<Home/>}><Home/></ProtectedRoutes>},
       {path: '/home',element: <ProtectedRoutes><Home/></ProtectedRoutes>},
-      {path: '/E-commerce',element: <ProtectedRoutes><Home/></ProtectedRoutes>},
+      {path: '/settings',element: <ProtectedRoutes><Settings/></ProtectedRoutes>,children: [
+        {path: "/settings/",element:<ProtectedRoutes><Account/></ProtectedRoutes> },
+        {path: "/settings/account",element:<ProtectedRoutes><Account/></ProtectedRoutes> },
+        {path: "/settings/privacy",element:<ProtectedRoutes><Privacy/></ProtectedRoutes> },
+        {path: "/settings/adresses",element:<ProtectedRoutes><Adresses/></ProtectedRoutes> }
+      ]},
       {path: "/cart",element:<ProtectedRoutes> <Cart/> </ProtectedRoutes>},
       {path: "/products",element:<ProtectedRoutes><Products/></ProtectedRoutes> },
       {path: "/Categories",element:<ProtectedRoutes><Categorys/></ProtectedRoutes> },
       {path: "/category/:id",element:<ProtectedRoutes><CategoryDetails/></ProtectedRoutes> },
+      {path: "/subcategory/:id",element:<ProtectedRoutes><Subproducts/></ProtectedRoutes> },
       {path: "/brands",element:<ProtectedRoutes><Brands/></ProtectedRoutes> },
       {path: "/brand/:id",element:<ProtectedRoutes><BrandDetails/></ProtectedRoutes> },
       {path: "/allorders",element:<ProtectedRoutes><Allorders/></ProtectedRoutes> },

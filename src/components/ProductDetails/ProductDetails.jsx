@@ -13,7 +13,7 @@ export default function ProductDetails() {
   let {id} = useParams()
 
   async function GetProduct(id){
-    let result =  await axios.get(`https://route-ecommerce.onrender.com/api/v1/products/${id}`)
+    let result =  await axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
     setIsLoading(false)
     setData(result?.data?.data)
   }

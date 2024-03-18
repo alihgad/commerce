@@ -4,20 +4,29 @@ import { useFormik } from "formik";
 import { Helmet } from "react-helmet";
 import { useContext } from "react";
 import { CartContexst } from "../../Context/CartContext";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+
 
 export default function Checkout() {
 
   let { offlinePay, cartID } = useContext(CartContexst);
-  console.log(cartID);
+  // console.log(cartID);
 
   async function payment(cartID, shippingAddress) {
-    let res = await offlinePay(cartID, shippingAddress);
-    console.log(res);
-    window.location.href = res?.data?.session?.url;
+    try{
+
+      let res = await offlinePay(cartID, shippingAddress)
+      toast.success('payment done successfully')
+      console.log(res.request);
+    }catch(err){
+      console.log(err);
+
+    }
   }
 
   function pay(values) {
-    console.log(values);
+    console.log('values');
     payment(cartID, values);
   }
 
@@ -27,15 +36,27 @@ export default function Checkout() {
       phone: "",
       city: "",
     },
-    onSubmit: pay,
+    onSubmit: (values) => {pay(values) ; console.log(values);},
+
+    validationSchema: yup.object().shape({
+      details: yup.string().required("Details is required").min(3),
+      phone: yup
+        .string()
+        .required("Phone is required")
+        .matches(/^(?:01)[0125]\d{8}$/, "please enter a valide phone number"),
+      city: yup.string().required("City is required").min(3),
+    }),
   });
+
+
   return (
     <>
       <Helmet>
         <title>Checkout</title>
       </Helmet>
       <div className="container">
-        <h2 className="my-3">Shippong Adress : </h2>
+        <h2 className="my-3">Shipping Adress : </h2>
+
         <form onSubmit={formik.handleSubmit}>
           <div className="form-groub mb-2">
             <label htmlFor="details" className="text-capitalize">
@@ -48,6 +69,11 @@ export default function Checkout() {
               name="details"
               {...formik.getFieldProps("details")}
             />
+            {formik.touched.details && formik.errors.details ? (
+              <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                {formik.errors.details}
+              </div>
+            ) : null}
           </div>
 
           <div className="form-groub mb-2">
@@ -61,6 +87,11 @@ export default function Checkout() {
               name="phone"
               {...formik.getFieldProps("phone")}
             />
+            {formik.touched.phone && formik.errors.phone ? (
+              <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                {formik.errors.phone}
+              </div>
+            ) : null}
           </div>
 
           <div className="form-groub mb-2">
@@ -74,18 +105,26 @@ export default function Checkout() {
               name="city"
               {...formik.getFieldProps("city")}
             />
+            {formik.touched.city && formik.errors.city ? (
+              <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                {formik.errors.city}
+              </div>
+            ) : null}
           </div>
 
           
 
-            <input
+            {/* <button
               type="submit"
               className="btn bg-main w-100 text-white my-3"
-              value={"Pay Now"}
-              
-            />
+              onClick={() => console.log('no')}
+            >
+              Pay Now
+            </button> */}
+        <button type='submit' className='btn btn-primary d-block ms-auto my-3' >pay</button>
 
         </form>
+
       </div>
     </>
   );

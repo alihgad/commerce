@@ -12,6 +12,7 @@ export default function Signin() {
   localStorage.removeItem('token')
   const [errorMesaage,setErrorMessage] = useState('') 
   const [isLoading,SetIsLoading] = useState(false)   
+  const [password,SetPassword] = useState('password')   
   const navigate = useNavigate(); 
 
 
@@ -27,7 +28,7 @@ export default function Signin() {
       ,
       onSubmit : values => {
         SetIsLoading(true)
-      axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values)
+        axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values)
       .then(response => {
         console.log(response.data.token);
         localStorage.setItem('token', response.data.token)
@@ -42,6 +43,18 @@ export default function Signin() {
       })
       }
   }) 
+
+
+  function changeType(){
+    if(password === 'password'){
+      SetPassword('text')
+    }
+    else{
+      SetPassword('password')
+    }
+  }
+
+
   return (
     <>
       <div  className="container  mt-5">
@@ -53,15 +66,16 @@ export default function Signin() {
 
         <div className="form-group mb-2 ">
           <label htmlFor="email" >email : </label>
-          <input id='email' name='email' type="text"  className='form-control ' {...formik.getFieldProps('email')} />
+          <input autoComplete='email' id='email' name='email' type="text"  className='form-control ' {...formik.getFieldProps('email')} />
           {formik.touched.email && formik.errors.email ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.email}</div>) : null}
         </div>
 
-        <div className="form-group mb-2 ">
+        <div className="form-group mb-2 position-relative ">
           <label htmlFor="password" >password : </label>
-          <input id='password' name='password' type="password"  className='form-control ' {...formik.getFieldProps('password')} />
-          {formik.touched.password && formik.errors.password ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.password}</div>) : null}
+          <input id='password' name='password' type={password}  className='form-control ' {...formik.getFieldProps('password')} />
+          <div className='position-absolute top-50 end-0 me-3 cursor-pointer' onClick={()=>{changeType()}}><i className='fas fa-eye '></i></div>
         </div>
+          {formik.touched.password && formik.errors.password ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{formik.errors.password}</div>) : null}
 
 
         

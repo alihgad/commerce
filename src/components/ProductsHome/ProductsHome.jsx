@@ -78,7 +78,7 @@ export default function ProductsHome() {
     displayWhichList();
     // Fetch products from the API
     axios
-      .get("https://route-ecommerce.onrender.com/api/v1/products")
+      .get("https://ecommerce.routemisr.com/api/v1/products")
       .then((response) => {
         console.log(response?.data?.data);
         setProducts(response?.data?.data);

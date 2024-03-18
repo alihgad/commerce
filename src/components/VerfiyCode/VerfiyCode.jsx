@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './VerfiyCode.module.css';
 import { useFormik } from 'formik';
 import * as yup from "yup";
@@ -7,6 +7,9 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 
 export default function VerfiyCode() {
+
+  let [loading,setLoading] = useState(false)
+
 
   const navigate = useNavigate()
 
@@ -18,6 +21,8 @@ export default function VerfiyCode() {
       resetCode: yup.string().required('Code is required')
     }),
     onSubmit: (values) => {
+
+      setLoading(true)
 
       axios.post('https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode', values)
    .then((res) => {
@@ -57,7 +62,7 @@ export default function VerfiyCode() {
                     </small>
                   </div>
                   <button type='submit'  className="btn btn-primary my-2" >
-                    Submit
+                  { loading ? <i className="fas fa-spinner fa-pulse"></i> : 'Submit'}
                   </button>
                 </form>
                 </div>

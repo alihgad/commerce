@@ -16,7 +16,6 @@ export default function Checkout() {
   async function payment(cartID, shippingAddress) {
     let res = await onlinePay(cartID, shippingAddress);
     console.log(res);
-    window.location.href = res?.data?.session?.url;
   }
 
   function pay(values) {
@@ -47,7 +46,7 @@ export default function Checkout() {
         <title>Checkout</title>
       </Helmet>
       <div className="container">
-        <h2 className="my-3">Shippong Adress : </h2>
+        <h2 className="my-3">Shipping Adress : </h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="form-groub mb-2">
             <label htmlFor="details" className="text-capitalize">
@@ -94,7 +93,7 @@ export default function Checkout() {
 
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="city"
               name="city"
               {...formik.getFieldProps("city")}

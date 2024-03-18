@@ -5,6 +5,8 @@ import { useContext } from "react";
 import axios from "axios";
 import { useState } from "react";
 import Loader from "../Loader/Loader";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Allorders() {
   const { id, getId } = useContext(TokenContext);
@@ -30,13 +32,18 @@ export default function Allorders() {
 
   return (
     <>
-      <div className="container mb-5 pb-5  bg-body-secondary  ">
+      <Helmet>
+        <title>
+          Orders
+        </title>
+      </Helmet>
+      <div className={`container  bg-body-secondary ${styles.mb} py-3`}>
         <div className=" mx-2 ">
           <h1 className="text-center mb-3 ">All orders</h1>
 
           {isLoading ? (
             <Loader />
-          ) : (
+          ) : orders.length > 0 ? (
             orders?.map((order) => (
               <div className="row  mb-5" key={order._id}>
                 <div className="card py-3 border-black">
@@ -97,11 +104,10 @@ export default function Allorders() {
                             <p>
                               payment Method :{" "}
                               {order.paymentMethodType === "card" ? (
-                                <div className="d-inline">
-                                  {" "}
+                                <span className="d-inline">
                                   card{" "}
                                   <i className="fa-brands fa-cc-visa  fa-lg"></i>{" "}
-                                </div>
+                                </span>
                               ) : (
                                 "cash"
                               )}{" "}
@@ -118,14 +124,14 @@ export default function Allorders() {
                                 <h4>shipping adress</h4>
                                 <ul className="list-unstyled">
                                   <li className=" my-3 ">
-                                    Phone : {order.shippingAddress.phone}
+                                    Phone : {order?.shippingAddress?.phone}
                                   </li>
                                   <li className=" my-3 ">
-                                    shipping City : {order.shippingAddress.city}
+                                    shipping City : {order?.shippingAddress?.city}
                                   </li>
                                   <li className=" my-3 ">
                                     shipping Address :{" "}
-                                    {order.shippingAddress.details}
+                                    {order?.shippingAddress?.details}
                                   </li>
                                 </ul>
                               </li>
@@ -157,6 +163,20 @@ export default function Allorders() {
                 </div>
               </div>
             ))
+          ) : (
+            <>
+              <div className="container">
+                <div className="row justify-content-center">
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <h5 className="card-title text-center text-capitalize">
+                        no orders till now start <Link className="text-main text-decoration-underline" to={'/products'}> shopping </Link> now 
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -40,14 +40,14 @@ export default function CatPreview() {
   return (<>
 
     <h3 className="text-capitalize mb-2 text-center">show popular categorys</h3>
-    {isLoading ? <Loader/> :<div className=" row mb-5  ">
+    {isLoading ? <Loader/> :<div key='row' className=" row mb-5  ">
       <Slider {...settings}>
-        {data?.map((cat,index) => {
+        {data?.map((cat) => {
           return (
             <>
-                <div key={index} id={index} >
+                <div key={cat.name} id={cat._id} >
                   <img  src={cat.image} alt={cat.name} className={`w-100 ${styles.sliderImage}` }/>
-                  <p key={index} className="text-center mt-1">{cat.name}</p>
+                  <p  className="text-center mt-1">{cat.name}</p>
                 </div>
             </>
           );

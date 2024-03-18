@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import toast from 'react-hot-toast';
+import { useNavigate } from "react-router-dom";
 
 
 export const CartContexst = createContext()
@@ -8,163 +9,164 @@ export const CartContexst = createContext()
 
 export default function CartContexstProvider(props) {
 
- const [cartQ,setCartQ] = useState(<i className="fas fa-spinner fa-pulse"></i>)
- const [cartID,setCartID] = useState()
- const url = 'https://ecommerce.routemisr.com/api/v1/cart';
- const headers = {
-  token: `${localStorage.getItem("token")} `,
-'Content-Type': 'application/json',    
-};
+
+  const [cartQ, setCartQ] = useState(<i className="fas fa-spinner fa-pulse"></i>)
+  const [cartID, setCartID] = useState()
+  const url = 'https://ecommerce.routemisr.com/api/v1/cart';
+  const headers = {
+    token: `${localStorage.getItem("token")} `,
+    'Content-Type': 'application/json',
+  };
 
 
 
-    async function addToCart(id){
-      setCartQ(<i className="fas fa-spinner fa-pulse"></i>)
+  async function addToCart(id) {
+    setCartQ(<i className="fas fa-spinner fa-pulse"></i>)
 
-          const data = {
-              'productId' : id
-          };
-      
-          try {
-            const response = await axios.post(url, data, { headers });
-            toast.success('Product added to cart',{position:'top-right'});
-            setCartQ(response?.data?.numOfCartItems)
-          } catch (error) {
-            toast.error('Failed to add product to cart'); 
-          }
-        };
+    const data = {
+      'productId': id
+    };
 
-
-
-      const displayCart = async () => {    
-        try {
-          const response = await axios.get(url, { headers });
-          return response
-
-        } catch (error) {
-            return error
-        }
-
-      };
-
-      async function cartCounter(){        
-        try {
-          const response = await axios.get(url, { headers });
-          setCartQ(response?.data?.numOfCartItems)
-          setCartID(response?.data?.data?._id)
-          return response
+    try {
+      const response = await axios.post(url, data, { headers });
+      toast.success('Product added to cart', { position: 'top-right' });
+      setCartQ(response?.data?.numOfCartItems)
+    } catch (error) {
+      toast.error('Failed to add product to cart');
+    }
+  };
 
 
-        } catch (error) {
-          setCartQ(0)
-            return error
-        }
 
-      }
+  const displayCart = async () => {
+    try {
+      const response = await axios.get(url, { headers });
+      return response
 
-      useEffect(() => {cartCounter()},[])
+    } catch (error) {
+      return error
+    }
 
+  };
 
-      const clearCart = async () => {
-        setCartQ(<i className="fas fa-spinner fa-pulse"></i>)        
-        try {
-          const response = await axios.delete(url, { headers });
-          setCartQ(response?.data?.numOfCartItems)
-          
-          return response
-
-        } catch (error) {
-            return error
-        }
-
-      };
+  async function cartCounter() {
+    try {
+      const response = await axios.get(url, { headers });
+      setCartQ(response?.data?.numOfCartItems)
+      setCartID(response?.data?.data?._id)
+      return response
 
 
-      const removeItem = async (productID) => {
-        setCartQ(<i className="fas fa-spinner fa-pulse"></i>)
-        const url = `https://ecommerce.routemisr.com/api/v1/cart/${productID}`;
-        try {
-          const response = await axios.delete(url, { headers });
-          setCartQ(response?.data?.numOfCartItems)
-          
-          console.log(response);
-          return response
+    } catch (error) {
+      setCartQ(0)
+      return error
+    }
 
-        } catch (error) {
-          console.log(error);
-            return error
+  }
 
-        }
-
-      };
+  useEffect(() => { cartCounter() }, [])
 
 
-        async function updateQuantity(id, quantity){
-            const url = `https://ecommerce.routemisr.com/api/v1/cart/${id}`;
+  const clearCart = async () => {
+    setCartQ(<i className="fas fa-spinner fa-pulse"></i>)
+    try {
+      const response = await axios.delete(url, { headers });
+      setCartQ(response?.data?.numOfCartItems)
 
-            
+      return response
 
-            const data = {
-                'count' : quantity
-            };
-        
-            try {
-              const response = await axios.put(url, data, { headers });
-              return response
+    } catch (error) {
+      return error
+    }
 
-            } catch (error) {
-              return error
-
-            }
-          };
-
-      
-          async function onlinePay(cartId,shippingAddress ){
-            const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:3000`;
-
-            
-
-            const data = {
-              shippingAddress
-            };
-        
-            try {
-              const response = await axios.post(url, data, { headers });
-              return response
-
-            } catch (error) {
-              return error
-
-            }
-          };
+  };
 
 
-          async function offlinePay(cartId,shippingAddress ){
-            const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=http://localhost:3000`;
+  const removeItem = async (productID) => {
+    setCartQ(<i className="fas fa-spinner fa-pulse"></i>)
+    const url = `https://ecommerce.routemisr.com/api/v1/cart/${productID}`;
+    try {
+      const response = await axios.delete(url, { headers });
+      setCartQ(response?.data?.numOfCartItems)
 
-            
+      console.log(response);
+      return response
 
-            const data = {
-              shippingAddress
-            };
-        
-            try {
-              const response = await axios.post(url, data, { headers });
-              console.log(response);
-              return response
+    } catch (error) {
+      console.log(error);
+      return error
 
-            } catch (error) {
-              return error
+    }
 
-            }
-          };
+  };
 
+
+  async function updateQuantity(id, quantity) {
+    const url = `https://ecommerce.routemisr.com/api/v1/cart/${id}`;
+
+
+
+    const data = {
+      'count': quantity
+    };
+
+    try {
+      const response = await axios.put(url, data, { headers });
+      return response
+
+    } catch (error) {
+      return error
+
+    }
+  };
+
+
+  async function onlinePay(cartId, shippingAddress) {
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://ali-e-commerce.netlify.app`;
+
+
+
+    const data = {
+      shippingAddress
+    };
+
+     await axios.post(url, data, { headers })
+    .then(response =>
+      {console.log(response)
+      window.location.href = response?.data?.session?.url
+    }
+      )
+    .catch(error => console.log(error))
 
     
+  };
+
+
+  async function offlinePay(cartId, shippingAddress) {
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://ali-e-commerce.netlify.app`;
+
+    const data = {
+      shippingAddress
+    };
+
+    try {
+      const response = await axios.post(url, data, { headers });
+      console.log(response);
+
+      return response
+
+    } catch (error) {
+      return error
+
+    }
+  };
 
 
 
-return <CartContexst.Provider value={{addToCart , displayCart,cartCounter,cartQ,clearCart,removeItem,updateQuantity,onlinePay,cartID , offlinePay}}>
-        {props.children}
-    </CartContexst.Provider>
+
+
+
+  return <CartContexst.Provider value={{ addToCart, displayCart, cartCounter, cartQ, clearCart, removeItem, updateQuantity, onlinePay, cartID, offlinePay }}>
+    {props.children}
+  </CartContexst.Provider>
 }
