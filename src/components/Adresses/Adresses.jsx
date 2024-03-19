@@ -61,6 +61,31 @@ export default function Adresses() {
     }
   }
 
+  async function deleteAdress(id) {
+    setLoading(true);
+    let headers = {
+      token,
+      "Content-Type": "application/json",
+    };
+
+    let url = `https://ecommerce.routemisr.com/api/v1/addresses/${id}`;
+
+    try {
+      const response = await axios.delete(url, { headers });
+      console.log(response);
+      setAdresses(response?.data?.data);
+      setLoading(false);
+
+      return response.data;
+    } catch (e) {
+      console.log(e);
+      setLoading(false  );
+
+    }
+  }
+
+  
+
   function swal() {
     withReactContent(Swal).fire({
       title: "Add Adress",
@@ -98,7 +123,6 @@ export default function Adresses() {
                   event.key === "Enter" && Swal.clickConfirm()
                 }
               />
-
               <Field
                 type="text"
                 className="swal2-input"
@@ -185,15 +209,17 @@ export default function Adresses() {
                         <th>details</th>
                         <th>phone</th>
                         <th>city</th>
+                        <th>delete</th>
                       </thead>
                       <tbody>
 
                         {adresses.map(adress => <>
-                        <tr>
+                        <tr key={adress._id} id={adresses._id}>
                           <td>{adress.name}</td>
                           <td>{adress.details}</td>
                           <td>{adress.phone}</td>
                           <td>{adress.city}</td>
+                          <td><div className="btn btn-outline-danger" onClick={()=>{deleteAdress(adress._id)}}> <i className="fas fa-trash-can"></i> </div></td>
                         </tr>
                         </>)}
 

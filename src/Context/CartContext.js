@@ -122,7 +122,7 @@ export default function CartContexstProvider(props) {
 
 
   async function onlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://ali-e-commerce.netlify.app`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://alihgad.github.io/commerce/#/`;
 
 
 
@@ -143,7 +143,7 @@ export default function CartContexstProvider(props) {
 
 
   async function offlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://ali-e-commerce.netlify.app`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce/#/`;
 
     const data = {
       shippingAddress
