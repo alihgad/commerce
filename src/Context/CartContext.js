@@ -143,7 +143,7 @@ export default function CartContexstProvider(props) {
 
 
   async function offlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce/#`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce/#/`;
 
     const data = {
       shippingAddress
@@ -152,6 +152,7 @@ export default function CartContexstProvider(props) {
     try {
       const response = await axios.post(url, data, { headers });
       console.log(response);
+      window.location.href = 'https://alihgad.github.io/commerce/#/'
 
       return response
 
