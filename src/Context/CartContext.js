@@ -122,7 +122,7 @@ export default function CartContexstProvider(props) {
 
 
   async function onlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://alihgad.github.io/commerce/#`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://alihgad.github.io/commerce/#/`;
 
 
 
