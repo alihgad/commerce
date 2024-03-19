@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, createHashRouter } from 'react-router-dom';
 import './App.css';
 import LayOut from './components/LayOut/LayOut';
 import Signin from './components/Signin/Signin';
@@ -32,7 +32,7 @@ import Subproducts from './components/Subproducts/Subproducts';
 function App() {
 
 
-  const routers = createBrowserRouter([
+  const routers = createHashRouter([
       // log in routing
     {path: "/",element: <LayOut/> , children: [
       {index: true,element: <ProtectedRoutes children={<Home/>}><Home/></ProtectedRoutes>},
