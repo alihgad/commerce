@@ -153,6 +153,7 @@ export default function CartContexstProvider(props) {
       const response = await axios.post(url, data, { headers });
       console.log(response);
       window.location.href = 'https://alihgad.github.io/commerce/#/'
+      cartCounter()
 
       return response
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Offlinecheckout.module.css";
 import { useFormik } from "formik";
 import { Helmet } from "react-helmet";
@@ -10,17 +10,21 @@ import toast from "react-hot-toast";
 
 export default function Checkout() {
 
+
+  let [ pays , setPay] =useState("Pay Now")
   let { offlinePay, cartID } = useContext(CartContexst);
-  // console.log(cartID);
 
   async function payment(cartID, shippingAddress) {
+    setPay(<i className="fas fa-spinner fa-pulse"></i>)
     try{
 
       let res = await offlinePay(cartID, shippingAddress)
       toast.success('payment done successfully')
       console.log(res.request);
+
     }catch(err){
       console.log(err);
+    setPay("Pay Now")
 
     }
   }
@@ -114,14 +118,12 @@ export default function Checkout() {
 
           
 
-            {/* <button
+            <button
               type="submit"
               className="btn bg-main w-100 text-white my-3"
-              onClick={() => console.log('no')}
             >
-              Pay Now
-            </button> */}
-        <button type='submit' className='btn btn-primary d-block ms-auto my-3' >pay</button>
+              {pays}
+            </button>
 
         </form>
 
