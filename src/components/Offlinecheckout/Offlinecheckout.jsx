@@ -235,7 +235,7 @@ export default function Offlinecheckout() {
   }
 
   function pay({adress}) {
-    loading(true);
+    setLoading(true);
     console.log(adress);
     payment(cartID, adress);
   }

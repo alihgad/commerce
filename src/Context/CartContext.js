@@ -170,7 +170,7 @@ export default function CartContexstProvider(props) {
 
 
   async function offlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce#/#/a`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce/`;
 
     const data = {
       shippingAddress

@@ -139,10 +139,8 @@ code {
   bottom: 22%
 }
 
-
-/* .dropdown-menu[data-bs-popper] {
-  right: 0% !important;
-  left: unset !important;
-} */
+.top-custom{
+  top: 20%;
+}
 
 

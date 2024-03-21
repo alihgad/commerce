@@ -8,14 +8,13 @@ import { TokenContext } from "../../Context/TokenContext";
 import * as yup from "yup";
 import Loader from "../Loader/Loader";
 
-
 export default function Privacy() {
-  const { id ,token,setToken } = useContext(TokenContext);
+  const { id, token, setToken } = useContext(TokenContext);
   let [loading, setLoading] = useState(true);
   let [userEmail, setUserEmail] = useState("");
-
-
-
+  const [Cpassword,SetCPassword] = useState('password')   
+  const [Npassword,SetNPassword] = useState('password')   
+  const [Rpassword,SetRPassword] = useState('password')   
 
 
   async function getData() {
@@ -27,50 +26,83 @@ export default function Privacy() {
     }
   }
 
-    getData();
+  getData();
 
-    async function updatePassword({currentPassword, password , rePassword}){
-      let url = `https://ecommerce.routemisr.com/api/v1/users/changeMyPassword`;
-      let data = {
-        currentPassword,
-        password,
-        rePassword
-      };
-
-      let headers = {
-        token
-      }
-
-
-      try{
-        let res = await axios.put(url, data,{headers});
-        console.log(res.data);
-        setToken(null)
-        localStorage.removeItem('token')
-        window.location.pathname = '/';
-
-      }catch(error){
-        console.log(error);
-      }
+  function changeTypeC(){
+    if(Cpassword === 'password'){
+      SetCPassword('text')
     }
+    else{
+      SetCPassword('password')
+    }
+  }
 
+  function changeTypeN(){
+    if(Npassword === 'password'){
+      SetNPassword('text')
+    }
+    else{
+      SetNPassword('password')
+    }
+  }
+
+  function changeTypeR(){
+    if(Rpassword === 'password'){
+      SetRPassword('text')
+    }
+    else{
+      SetRPassword('password')
+    }
+  }
+
+
+  async function updatePassword({ currentPassword, password, rePassword }) {
+    let url = `https://ecommerce.routemisr.com/api/v1/users/changeMyPassword`;
+    let data = {
+      currentPassword,
+      password,
+      rePassword,
+    };
+
+    let headers = {
+      token,
+    };
+
+    try {
+      let res = await axios.put(url, data, { headers });
+      console.log(res.data);
+      setToken(null);
+      localStorage.removeItem("token");
+      window.location.pathname = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const dataform = useFormik({
     enableReinitialize: true,
     initialValues: {
       email: userEmail,
-      currentPassword : '',
-      password : '',
-      rePassword : ''
-
+      currentPassword: "",
+      password: "",
+      rePassword: "",
     },
     validationSchema: yup.object({
       currentPassword: yup.string().required("current password is required"),
-      password : yup.string().matches(/^[A-Z][a-zA-z0-9]{3,18}$/,'password must start with capital letter and bettwen 6-9 chracter length').required('password is requaired'),
-      rePassword : yup.string().oneOf([yup.ref('password'), null], 'passwords must match').required('rePassword is requaired'),
+      password: yup
+        .string()
+        .matches(
+          /^[A-Z][a-zA-z0-9]{3,18}$/,
+          "password must start with capital letter and bettwen 6-9 chracter length"
+        )
+        .required("password is requaired"),
+      rePassword: yup
+        .string()
+        .oneOf([yup.ref("password"), null], "passwords must match")
+        .required("rePassword is requaired"),
     }),
     onSubmit: (values) => {
-      updatePassword(values)
+      updatePassword(values);
       console.log(values);
     },
   });
@@ -102,8 +134,7 @@ export default function Privacy() {
               </div>
               <div className=" col-xxl-8 col-md-7 col-6 ps-0">
                 <form onSubmit={dataform.handleSubmit}>
-                  
-                <div className="my-3">
+                  <div className="my-3 ">
                     <input
                       type="text"
                       name="email"
@@ -114,11 +145,11 @@ export default function Privacy() {
                       autoComplete="current-email"
                       hidden
                     />
-                  </div>
+                    </div>
 
-                  <div className="my-3">
+                  <div className="my-3 position-relative">
                     <input
-                      type="password"
+                      type={Cpassword}
                       name="currentPassword"
                       id="currentPassword"
                       className="form-control"
@@ -127,13 +158,25 @@ export default function Privacy() {
                       autoComplete="current-password"
                       aria-describedby="help-current"
                     />
-                    {dataform.touched.currentPassword && dataform.errors.currentPassword ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{dataform.errors.currentPassword}</div>) :null}
-
+                    <div
+                      className="position-absolute top-custom end-0 me-3 cursor-pointer"
+                      onClick={() => {
+                        changeTypeC();
+                      }}
+                    >
+                      <i className="fas fa-eye "></i>
+                    </div>
                   </div>
+                  {dataform.touched.currentPassword &&
+                  dataform.errors.currentPassword ? (
+                    <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                      {dataform.errors.currentPassword}
+                    </div>
+                  ) : null}
 
-                  <div className="my-3">
+                  <div className="my-3 position-relative">
                     <input
-                      type="password"
+                      type={Npassword}
                       name="password"
                       id="password"
                       className="form-control"
@@ -141,38 +184,53 @@ export default function Privacy() {
                       {...dataform.getFieldProps("password")}
                       autoComplete="new-password"
                     />
-                    {dataform.touched.password && dataform.errors.password ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{dataform.errors.password}</div>) :null}
-
+                    <div
+                      className="position-absolute top-custom end-0 me-3 cursor-pointer"
+                      onClick={() => {
+                        changeTypeN();
+                      }}
+                    >
+                      <i className="fas fa-eye "></i>
+                    </div>
                   </div>
+                  {dataform.touched.password && dataform.errors.password ? (
+                    <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                      {dataform.errors.password}
+                    </div>
+                  ) : null}
 
-                  <div className="my-3">
+                  <div className="my-3 position-relative">
                     <input
-                      type="password"
+                      type={Rpassword}
                       name="rePassword"
                       id="rePassword"
                       className="form-control"
                       placeholder=""
                       {...dataform.getFieldProps("rePassword")}
                       autoComplete="new-password"
-
                     />
-                    {dataform.touched.rePassword && dataform.errors.rePassword ? (<div className='mt-2 p-0 ps-1 alert alert-danger '>{dataform.errors.rePassword}</div>) :null}
-
+                    <div
+                      className="position-absolute top-custom end-0 me-3 cursor-pointer"
+                      onClick={() => {
+                        changeTypeR();
+                      }}
+                    >
+                      <i className="fas fa-eye "></i>
+                    </div>
                   </div>
-
-
-
+                  {dataform.touched.rePassword && dataform.errors.rePassword ? (
+                    <div className="mt-2 p-0 ps-1 alert alert-danger ">
+                      {dataform.errors.rePassword}
+                    </div>
+                  ) : null}
 
                   <div className=" col-3 d-flex">
-                    
-
                     <button
                       type="submit"
                       className="btn bg-main text-white m-2 "
                     >
                       Update
                     </button>
-
                   </div>
                 </form>
               </div>
@@ -181,6 +239,5 @@ export default function Privacy() {
         </>
       )}
     </>
-
   );
 }

@@ -94,6 +94,7 @@ export default function Checkout() {
 
 
   async function payment(cartID, shippingAddress) {
+    setLoading(true)
     let res = await onlinePay(cartID, shippingAddress);
     console.log(res);
   }
