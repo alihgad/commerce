@@ -5,14 +5,13 @@ import axios from "axios";
 import { TokenContext } from "../../Context/TokenContext";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { FormikErrors, FormikProps, useFormik } from "formik";
 import { Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import Loader from "../Loader/Loader";
 
 export default function Adresses() {
   let formikRef = null;
-  let { id, token } = useContext(TokenContext);
+  let {  token } = useContext(TokenContext);
   let [adresses, setAdresses] = useState("");
   let [loading, setLoading] = useState(true);
 

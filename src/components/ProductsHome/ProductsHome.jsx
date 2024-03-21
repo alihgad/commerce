@@ -4,6 +4,7 @@ import axios from "axios";
 import PriceAndRate from "../PriceAndRate/PriceAndRate";
 import { Link } from "react-router-dom";
 import toast from 'react-hot-toast';
+import place from './../../assets/images/place.jpg';
 
 
 export default function ProductsHome() {
@@ -125,7 +126,7 @@ export default function ProductsHome() {
               <div className="col-lg-3">
                 <div className="card" aria-hidden="true">
                   <img
-                    src="https://placehold.co/600x400"
+                    src={place}
                     className="card-img-top w-100"
                     alt="..."
                   />
@@ -147,7 +148,7 @@ export default function ProductsHome() {
               <div className="col-lg-3">
                 <div className="card " aria-hidden="true">
                   <img
-                    src="https://placehold.co/600x400"
+                    src={place}
                     className="card-img-top w-100"
                     alt="..."
                   />
@@ -169,7 +170,7 @@ export default function ProductsHome() {
               <div className="col-lg-3">
                 <div className="card" aria-hidden="true">
                   <img
-                    src="https://placehold.co/600x400"
+                    src={place}
                     className="card-img-top w-100"
                     alt="..."
                   />
@@ -191,7 +192,7 @@ export default function ProductsHome() {
               <div className="col-lg-3">
                 <div className="card" aria-hidden="true">
                   <img
-                    src="https://placehold.co/600x400"
+                    src={place}
                     className="card-img-top w-100"
                     alt="..."
                   />

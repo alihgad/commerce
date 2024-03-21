@@ -6,11 +6,91 @@ import { useContext } from "react";
 import { CartContexst } from "../../Context/CartContext";
 import * as yup from "yup";
 import axios from "axios";
+import { Field, Form, Formik } from "formik";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import Loader from "../Loader/Loader";
 
 export default function Checkout() {
+  let formikRef = null;
+  let [adresses, setAdresses] = useState("");
+  let [loading, setLoading] = useState(true);
   let { onlinePay, cartID } = useContext(CartContexst);
   console.log(cartID);
+  const token = localStorage.getItem("token");
 
+  async function getAdresses() {
+    let headers = {
+      token,
+    };
+
+    try {
+      const response = await axios.get(
+        `https://ecommerce.routemisr.com/api/v1/addresses`,
+        { headers }
+      );
+      console.log(response);
+      setAdresses(response?.data?.data);
+      setLoading(false);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      return error;
+    }
+  }
+
+ 
+
+  async function addAdress({ name, details, phone, city }) {
+ 
+      let headers = {
+        token,
+        "Content-Type": "application/json",
+      };
+  
+      let data = {
+        name,
+        details,
+        phone,
+        city,
+      };
+  
+      let url = "https://ecommerce.routemisr.com/api/v1/addresses";
+  
+      try {
+        const response = await axios.post(url, data, { headers });
+        console.log(response);
+        setAdresses(response?.data?.data);
+        return response.data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  
+
+  async function deleteAdress(id) {
+    setLoading(true);
+    let headers = {
+      token,
+      "Content-Type": "application/json",
+    };
+
+    let url = `https://ecommerce.routemisr.com/api/v1/addresses/${id}`;
+
+    try {
+      const response = await axios.delete(url, { headers });
+      console.log(response);
+      setAdresses(response?.data?.data);
+      setLoading(false);
+
+      return response.data;
+    } catch (e) {
+      console.log(e);
+      setLoading(false  );
+
+    }
+  }
 
 
   async function payment(cartID, shippingAddress) {
@@ -18,9 +98,10 @@ export default function Checkout() {
     console.log(res);
   }
 
-  function pay(values) {
-    console.log(values);
-    payment(cartID, values);
+  function pay({adress}) {
+    console.log(adress);
+    // addAdress(adress) 
+    payment(cartID, adress);
   }
 
   let formik = useFormik({
@@ -40,14 +121,111 @@ export default function Checkout() {
       city: yup.string().required("City is required").min(3),
     }),
   });
+
+  function swal() {
+    withReactContent(Swal).fire({
+      title: "Add Adress",
+      html: (
+        <>
+          <Formik
+            innerRef={(ref) => (formikRef = ref)}
+            initialValues={{
+              name: "",
+              details: "",
+              phone: "",
+              city: "",
+            }}
+            validationSchema={yup.object().shape({
+              name: yup.string().required("Name is required"),
+              details: yup.string().required("Details is required").min(3),
+              phone: yup
+                .string()
+                .required("Phone is required")
+                .matches(
+                  /^(?:01)[0125]\d{8}$/,
+                  "please enter a valide phone number"
+                ),
+              city: yup.string().required("City is required").min(3),
+            })}
+            onSubmit={
+              (values) => {pay(values)
+                  addAdress(values)}
+            }
+          >
+            <Form>
+              <Field
+                type="text"
+                className="swal2-input"
+                name="name"
+                placeholder="Name"
+                onKeyPress={(event) =>
+                  event.key === "Enter" && Swal.clickConfirm()
+                }
+              />
+              <Field
+                type="text"
+                className="swal2-input"
+                name="details"
+                placeholder="Details"
+                onKeyPress={(event) =>
+                  event.key === "Enter" && Swal.clickConfirm()
+                }
+              />
+
+              <Field
+                type="text"
+                className="swal2-input"
+                name="phone"
+                placeholder="Phone"
+                onKeyPress={(event) =>
+                  event.key === "Enter" && Swal.clickConfirm()
+                }
+              />
+
+              <Field
+                type="text"
+                className="swal2-input"
+                name="city"
+                placeholder="City"
+                onKeyPress={(event) =>
+                  event.key === "Enter" && Swal.clickConfirm()
+                }
+              />
+            </Form>
+          </Formik>
+        </>
+      ),
+      didOpen: () => {
+        Swal.getPopup()?.querySelector("input")?.focus();
+      },
+      preConfirm: async () => {
+        await formikRef?.submitForm();
+        if (formikRef?.isValid) {
+          Swal.fire({
+            title: "Address added successfully",
+            icon: "success",
+          });
+        } else {
+          Swal.showValidationMessage(JSON.stringify(formikRef?.errors));
+        }
+      },
+    });
+  }
+
+  useEffect(() => {
+    getAdresses();
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>Checkout</title>
       </Helmet>
+
       <div className="container">
-        <h2 className="my-3">Shipping Adress : </h2>
-        <form onSubmit={formik.handleSubmit}>
+        <h2 className="my-3">Chosse Shipping Adress : </h2>
+
+        {/* <form onSubmit={formik.handleSubmit}>
           <div className="form-groub mb-2">
             <label htmlFor="details" className="text-capitalize">
               details
@@ -114,7 +292,59 @@ export default function Checkout() {
               value={"Online payment"}
             />
           </div>
-        </form>
+        </form> */}
+
+{loading ? (
+          <Loader />
+        ) : (
+          <>
+            {adresses.length < 1 ? (
+              <>
+                <div className="container mt-5 px-5 ">
+                  <div className="row justify-content-center ">
+                    <div className="card mb-3">
+                      <div className="card-body">
+                        <h5 className="card-title text-center">no Adresses</h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="row px-4 ">
+                <>
+                  <div className="col-12 card  my-2">
+                    <table className="table table-striped table-bordered text-center pt-5">
+                      <thead>
+                        <th>name</th>
+                        <th>details</th>
+                        <th>phone</th>
+                        <th>city</th>
+                        <th>delete</th>
+                      </thead>
+                      <tbody>
+
+                        {adresses.map(adress => <>
+                        <tr key={adress._id} id={adress._id} className="cursor-pointer" onClick={()=>pay({adress})}>
+                          <td>{adress.name}</td>
+                          <td>{adress.details}</td>
+                          <td>{adress.phone}</td>
+                          <td>{adress.city}</td>
+                          <td><div className="btn btn-outline-danger" onClick={(e)=>{deleteAdress(adress._id) ; e.stopPropagation()}}> <i className="fas fa-trash-can"></i> </div></td>
+                        </tr>
+                        </>)}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              </div>
+            )}
+          </>
+        )}
+
+        <div className="btn btn-success m-2" onClick={()=>swal()}>Add New Adress</div>
+
       </div>
     </>
   );

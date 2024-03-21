@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 export const CartContexst = createContext()
@@ -58,6 +59,7 @@ export default function CartContexstProvider(props) {
 
 
     } catch (error) {
+      
       setCartQ(0)
       return error
     }
@@ -76,6 +78,12 @@ export default function CartContexstProvider(props) {
       return response
 
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        footer: '<p>Your Cart is Empety Start <a class="text-primary text-decoration-underline" href="/products">Shopping</a></p>'
+      });
       return error
     }
 
@@ -94,6 +102,12 @@ export default function CartContexstProvider(props) {
 
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        footer: '<p>Your Cart is Empety Start <a class="text-primary text-decoration-underline" href="/products">Shopping</a></p>'
+      });
       return error
 
     }
@@ -115,6 +129,12 @@ export default function CartContexstProvider(props) {
       return response
 
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        footer: '<p>Your Cart is Empety Start <a class="text-primary text-decoration-underline" href="/products">Shopping</a></p>'
+      });
       return error
 
     }
@@ -122,7 +142,7 @@ export default function CartContexstProvider(props) {
 
 
   async function onlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://alihgad.github.io/commerce/#/`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://alihgad.github.io/commerce#/#/#`;
 
 
 
@@ -136,14 +156,21 @@ export default function CartContexstProvider(props) {
       window.location.href = response?.data?.session?.url
     }
       )
-    .catch(error => console.log(error))
+    .catch(error => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        footer: '<p>Your Cart is Empety Start <a class="text-primary text-decoration-underline" href="/products">Shopping</a></p>'
+      });
+        console.log(error)})
 
     
   };
 
 
   async function offlinePay(cartId, shippingAddress) {
-    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce/#/`;
+    const url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}?url=https://https://alihgad.github.io/commerce#/#/a`;
 
     const data = {
       shippingAddress
@@ -158,6 +185,12 @@ export default function CartContexstProvider(props) {
       return response
 
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.response.data.message,
+        footer: '<p>Your Cart is Empety Start <a class="text-primary text-decoration-underline" href="/products">Shopping</a></p>'
+      });
       return error
 
     }
