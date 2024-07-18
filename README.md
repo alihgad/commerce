@@ -1,5 +1,5 @@
-#Fresh cart E-commerce project (graduation project for rotue front-end diploma)
-###Build with 
+# Fresh cart E-commerce project (graduation project for rotue front-end diploma)
+### Build with 
 - HTML5, CSS3, bootstrap 5 ,JavaScript , font awesome , React.js.
 - Authentication and protected routes .
 - axios , Fetching API (get , post , put , delete).
